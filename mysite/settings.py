@@ -24,7 +24,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-g$l7jay25z1noa91$=-t0h&qcac8muv^i1^$ss=+&*-ft1pnpw"
+import os  # Make sure this is imported at the top of your settings.py if it isn't already
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-g$l7jay25z1noa91$=-t0h&qcac8muv^i1^$ss=+&*-ft1pnpw')
+import os  # Make sure this is imported at the top of your settings.py if it isn't already
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
