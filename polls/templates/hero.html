@@ -10,7 +10,7 @@
         <div class="logo-container">
             <a href="{% url 'hero' %}" class="logo-link">
                 <img src="{% static 'images/gtlogo.png' %}" 
-                    alt="GoalTweaks Logo" 
+                    alt="Academic Bloom Logo" 
                     class="logo-img"/>  
             </a>
         </div>
@@ -41,7 +41,7 @@
             <p><strong>Study Plan:</strong> {{ latest_entry.study_plan }}</p>
         </div>
         {% else %}
-            <p class="no-prediction">Welcome to GoalTweaks - Achieve your academic goals today. </p>
+            <p class="no-prediction">Welcome to Academic Bloom - Achieve your academic goals today. </p>
         {% endif %}
 
         <div class="button-group">
@@ -96,7 +96,7 @@
 
         <section class="preferred-learning-style">
             <h4> Hi, {{ user.username }}  </h4>
-            <p> Here at GoalTweaks, you can be a high achiever with the right strategies, support, and resources.</p>
+            <p> Here at Academic Bloom, you can be a high achiever with the right strategies, support, and resources.</p>
         </section>
     </main>
 </div>
