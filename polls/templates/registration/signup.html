@@ -4,81 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | Academic Bloom</title>
-
+    <meta name="theme-color" content="#ffffff">
+    <title>Create account | Academic Bloom</title>
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-
-    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
-     <link href="{% static 'css/styles_preview.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/onboarding.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
-<body>
-    <script src="{% static 'js/dark-mode.js' %}" defer></script>
-    
-     <header class="main-header">
-        <div class="logo-container">
-            <a href="{% url 'hero' %}" class="logo-link">
-                <img src="{% static 'images/gtlogo.png' %}" 
-                    alt="Academic Bloom Logo" 
-                    class="logo-img"/>  
-            </a>
-        </div>
-
-        <div class="header-actions">
-            <div class="auth-buttons">
-                <a href="{% url 'login' %}" class="auth-btn sign-in">Sign In</a>
-                <a href="{% url 'signup' %}" class="auth-btn sign-up">Sign Up</a>
-            </div>
-
-        </div>
+<body class="onboarding auth-page">
+    <header class="onboarding-header">
+        <a class="brand" href="{% url 'home' %}" aria-label="Academic Bloom home">
+            <img src="{% static 'images/gtlogo.png' %}" alt="">
+            <span>Academic <strong>Bloom</strong></span>
+        </a>
+        <nav class="account-nav" aria-label="Account">
+            <span class="nav-prompt">Already a member?</span>
+            <a class="nav-cta" href="{% url 'login' %}">Sign in</a>
+        </nav>
     </header>
 
-    <div class="golden-rays"></div>
+    <main class="auth-layout signup-layout">
+        <section class="auth-intro" aria-labelledby="auth-title">
+            <p class="eyebrow"><span aria-hidden="true"></span> Start with one small step</p>
+            <h1 id="auth-title">Make space for <span>your potential.</span></h1>
+            <p class="auth-description">Create your account and turn your plans into progress—with a study space that grows with you.</p>
+            <ul class="auth-benefits">
+                <li><span aria-hidden="true">◎</span> Set goals that feel achievable</li>
+                <li><span aria-hidden="true">↗</span> Find a rhythm that works for you</li>
+                <li><span aria-hidden="true">✓</span> Celebrate every step forward</li>
+            </ul>
+        </section>
 
-    <div class="container">
+        <section class="auth-card" aria-labelledby="form-title">
+            <p class="auth-card-eyebrow">A fresh start</p>
+            <h2 id="form-title">Create your account</h2>
+            <p class="auth-card-description">A few details and you’re ready to begin.</p>
 
-        <div class="signup-card">
-            <div class="avatar">
-                <img src="{% static 'images/user_icon.png' %}" alt="avatar icon">
-            </div>
+            {% if form.non_field_errors %}
+                <div class="form-alert" role="alert">{{ form.non_field_errors }}</div>
+            {% endif %}
 
-            <h3>Sign up</h3>
-
-            <!-- {% if messages %}
-                {% for message in messages %}
-                    <p style="color: rgb(255, 255, 255)">{{ message }}</p>
-                {% endfor %}
-            {% endif %} -->
-
-            <form method="POST">
+            <form method="post" class="auth-form">
                 {% csrf_token %}
-                 <div class="input-field">
-                    <input type="text" name="username" id="id_username" placeholder="Username" required>
+                <div class="auth-field">
+                    <label for="id_username">Username</label>
+                    <input type="text" name="username" id="id_username" placeholder="Choose a username" autocomplete="username" value="{{ form.username.value|default_if_none:'' }}" aria-invalid="{% if form.username.errors %}true{% else %}false{% endif %}" aria-describedby="{% if form.username.errors %}username-error{% endif %}" required autofocus>
                     {% if form.username.errors %}
-                        <p class="error">{{ form.username.errors.0 }}</p>
+                        <p class="field-error" id="username-error" role="alert">{{ form.username.errors.0 }}</p>
                     {% endif %}
                 </div>
-                
-                <div class="input-field">
-                    <input type="password" name="password1" id="id_password1" placeholder="Password" required>
+                <div class="auth-field">
+                    <label for="id_password1">Password</label>
+                    <input type="password" name="password1" id="id_password1" placeholder="Create a password" autocomplete="new-password" aria-invalid="{% if form.password1.errors %}true{% else %}false{% endif %}" aria-describedby="{% if form.password1.errors %}password1-error{% endif %}" required>
                     {% if form.password1.errors %}
-                        <p class="error">{{ form.password1.errors.0 }}</p>
+                        <p class="field-error" id="password1-error" role="alert">{{ form.password1.errors.0 }}</p>
                     {% endif %}
                 </div>
-
-                 <div class="input-field">
-                    <input type="password" name="password2" id="id_password2" placeholder="Confirm Password" required>
+                <div class="auth-field">
+                    <label for="id_password2">Confirm password</label>
+                    <input type="password" name="password2" id="id_password2" placeholder="Enter your password again" autocomplete="new-password" aria-invalid="{% if form.password2.errors %}true{% else %}false{% endif %}" aria-describedby="{% if form.password2.errors %}password2-error{% endif %}" required>
                     {% if form.password2.errors %}
-                        <p class="error">{{ form.password2.errors.0 }}</p>
+                        <p class="field-error" id="password2-error" role="alert">{{ form.password2.errors.0 }}</p>
                     {% endif %}
                 </div>
-                
-                <button type="submit">Sign up</button>
+                <button class="auth-submit" type="submit">Create account <span aria-hidden="true">→</span></button>
             </form>
 
-            <p class="login-link">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
-       
-        </div>
-    </div>
+            <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+        </section>
+    </main>
 </body>
 </html>

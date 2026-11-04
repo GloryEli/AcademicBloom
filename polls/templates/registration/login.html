@@ -4,63 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Academic Bloom</title>
-
+    <meta name="theme-color" content="#ffffff">
+    <title>Sign in | Academic Bloom</title>
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
-    <link href="{% static 'css/styles_preview.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/onboarding.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
-<body>
-    <script src="{% static 'js/dark-mode.js' %}" defer></script>
-    
-    <header class="main-header">
-        <div class="logo-container">
-            <a href="{% url 'hero' %}" class="logo-link">
-                <img src="{% static 'images/gtlogo.png' %}" 
-                    alt="Academic Bloom Logo" 
-                    class="logo-img"/>  
-            </a>
-        </div>
-
-        <div class="header-actions">
-            <div class="auth-buttons">
-                <a href="{% url 'login' %}" class="auth-btn sign-in">Sign In</a>
-                <a href="{% url 'signup' %}" class="auth-btn sign-up">Sign Up</a>
-            </div>
-
-        </div>
+<body class="onboarding auth-page">
+    <header class="onboarding-header">
+        <a class="brand" href="{% url 'home' %}" aria-label="Academic Bloom home">
+            <img src="{% static 'images/gtlogo.png' %}" alt="">
+            <span>Academic <strong>Bloom</strong></span>
+        </a>
+        <nav class="account-nav" aria-label="Account">
+            <span class="nav-prompt">New here?</span>
+            <a class="nav-cta" href="{% url 'signup' %}">Create account</a>
+        </nav>
     </header>
 
-    <div class="golden-rays"></div>
+    <main class="auth-layout">
+        <section class="auth-intro" aria-labelledby="auth-title">
+            <p class="eyebrow"><span aria-hidden="true"></span> Welcome back</p>
+            <h1 id="auth-title">Your next step is <span>waiting.</span></h1>
+            <p class="auth-description">Pick up where you left off and keep building toward the goals that matter to you.</p>
+            <ul class="auth-benefits">
+                <li><span aria-hidden="true">◎</span> Keep your study goals in focus</li>
+                <li><span aria-hidden="true">↗</span> Build momentum, one session at a time</li>
+                <li><span aria-hidden="true">✓</span> See how far you’ve come</li>
+            </ul>
+        </section>
 
-    <div class="container">
-
-        <div class="login-card">
-            <div class="avatar">
-                <img src="{% static 'images/user_icon.png' %}" alt="avatar icon">
-            </div>
-            
-            <h3>Login</h3>
+        <section class="auth-card" aria-labelledby="form-title">
+            <p class="auth-card-eyebrow">Your learning space</p>
+            <h2 id="form-title">Sign in</h2>
+            <p class="auth-card-description">Enter your details to continue.</p>
 
             {% if form.errors %}
-                <p class="error">Invalid username or password.</p>
+                <p class="form-alert" role="alert">We couldn’t sign you in with those details. Please try again.</p>
             {% endif %}
 
-            <form method="POST">
+            <form method="post" class="auth-form">
                 {% csrf_token %}
-                <div class="input-field">
-                    <input type="text" name="username" id="id_username" placeholder="Username" required>
+                <div class="auth-field">
+                    <label for="id_username">Username</label>
+                    <input type="text" name="username" id="id_username" placeholder="Your username" autocomplete="username" value="{{ form.username.value|default_if_none:'' }}" required autofocus>
                 </div>
-                <div class="input-field">
-                    <input type="password" name="password" id="id_password" placeholder="Password" required>
+                <div class="auth-field">
+                    <label for="id_password">Password</label>
+                    <input type="password" name="password" id="id_password" placeholder="Your password" autocomplete="current-password" required>
                 </div>
-                <button type="submit">Log In</button>
+                <button class="auth-submit" type="submit">Sign in <span aria-hidden="true">→</span></button>
             </form>
 
-            <p class="signup-link">Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
-        </div>
-    </div>
+            <p class="auth-switch">Don’t have an account? <a href="{% url 'signup' %}">Create one</a></p>
+        </section>
+    </main>
 </body>
 </html>
