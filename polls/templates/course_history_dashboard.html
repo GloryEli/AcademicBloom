@@ -2,43 +2,41 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 <script src="{% static 'js/dark-mode.js' %}" defer></script>
 
 <div class="main-content">
     <header class="main-header">
         <div class="logo-container">
-            <a href="{% url 'hero' %}" class="logo-link">
-                <img src="{% static 'images/gtlogo.png' %}" alt="Academic Bloom Logo" class="logo-img"/>  
+            <a href="{% url 'hero' %}" class="logo-link" aria-label="Academic Bloom home">
+                <img src="{% static 'images/gtlogo.png' %}" alt="Academic Bloom" class="logo-img">
             </a>
         </div>
         <div class="page-titles">
-            <h3 class="homepage-header">{{ user.username }}'s Goals</h3>
+            <h3 class="homepage-header">{{ user.username }}'s learning space</h3>
         </div>
         <div class="header-actions">
             <div class="auth-buttons">
-                <a href="{% url 'subject_dashboard' course.id %}" class="auth-btn dashboard-btn">{{ course.subject_name}} Dashboard</a>
-                <form action="{% url 'logout' %}" method="POST" class="logout-form">
+                <a href="{% url 'subject_dashboard' course.id %}" class="auth-btn dashboard-btn">{{ course.subject_name }} dashboard</a>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
-                    <button type="submit" class="auth-btn logout-btn">Logout</button>
+                    <button type="submit" class="auth-btn logout-btn">Sign out</button>
                 </form>
             </div>
-            <!-- Dark mode toggle -->
             <div class="dark-mode-toggle-container">
                 <span class="dark-mode-label">Dark Mode</span>
-                <button class="dark-mode-toggle" aria-label="Toggle dark mode"></button>
+                <button class="dark-mode-toggle" type="button" aria-label="Toggle dark mode"></button>
             </div>
         </div>
     </header>
 
     <main class="history-container">
         <div class="dashboard-header">
-            <h4>{{ course.subject_name }} Prediction History Dashboard</h2>
+            <h1>{{ course.subject_name }} prediction history</h1>
         </div>
 
         <!-- Performance Chart -->
         <div class="dashboard-card chart-card">
-            <h4>Performance Trend</h3>
+            <h2>Performance trend</h2>
             <!-- In the chart container div -->
             <div class="chart-container">
                 <canvas id="performanceChart" width="600" height="400"

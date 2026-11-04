@@ -2,56 +2,50 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 <script src="{% static 'js/dark-mode.js' %}" defer></script>
 
-    <div class="main-content">
-        <header class="main-header">
-            <div class="logo-container">
-                <a href="{% url 'hero' %}" class="logo-link">
-                    <img src="{% static 'images/gtlogo.png' %}" 
-                        alt="Academic Bloom Logo" 
-                        class="logo-img"/>  
-                </a>
+<div class="main-content">
+    <header class="main-header">
+        <div class="logo-container">
+            <a href="{% url 'hero' %}" class="logo-link" aria-label="Academic Bloom home">
+                <img src="{% static 'images/gtlogo.png' %}" alt="Academic Bloom" class="logo-img">
+            </a>
+        </div>
+        <div class="page-titles">
+            <h3 class="homepage-header">{{ user.username }}'s learning space</h3>
+        </div>
+        <div class="header-actions">
+            <div class="auth-buttons">
+                <a href="{% url 'course_history' course.id %}" class="auth-btn">View history</a>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="auth-btn logout-btn">Sign out</button>
+                </form>
             </div>
-            <div class="page-titles">
-                <h3 class="homepage-header">{{ user.username }}'s Goals</h3>
+            <div class="dark-mode-toggle-container">
+                <span class="dark-mode-label">Dark Mode</span>
+                <button class="dark-mode-toggle" type="button" aria-label="Toggle dark mode"></button>
             </div>
-            <div class="header-actions">
-                <div class="auth-buttons">
-                    <a href="{% url 'course_history' course.id %}" class="auth-btn">View History</a>
-                    <form action="{% url 'logout' %}" method="POST" class="logout-form">
-                        {% csrf_token %}
-                        <button type="submit" class="auth-btn logout-btn">Logout</button>
-                    </form>
-                </div>
-                <!-- Dark mode toggle -->
-                <div class="dark-mode-toggle-container">
-                    <span class="dark-mode-label">Dark Mode</span>
-                    <button class="dark-mode-toggle" aria-label="Toggle dark mode"></button>
-                </div>
-            </div>
-        </header>
+        </div>
+    </header>
 
-        <main class="history-container">
-            <div class="dashboard-header">
-                <h4> {{ course.subject_name }} Dashboard</h4>
-                <a href="{% url 'new_prediction' course.id %}" class="btn">+ New Prediction</a>
-            </div>
-        
-            <div class="dashboard-container">
-                <!-- Subject Results Card -->
-                <div class="results-card dashboard-card">
-                    <h4>Course Summary</h4>
-                    {% include 'subject_results_card.html' with course=course %}
-                </div>
+    <main class="history-container">
+        <div class="dashboard-header">
+            <h1>{{ course.subject_name }} dashboard</h1>
+            <a href="{% url 'new_prediction' course.id %}" class="btn">New prediction</a>
+        </div>
 
-                <!-- Study Guide Card -->
-                <div class="guidance-card dashboard-card">
-                    {% include 'study_guide_card.html' with course=course courses=courses guidance=guidance error=error %}
-                </div>
+        <div class="dashboard-container">
+            <section class="results-card dashboard-card">
+                <h2>Course summary</h2>
+                {% include 'subject_results_card.html' with course=course %}
+            </section>
 
-            </div>
-        </main>
-    <div/>
+            <section class="guidance-card dashboard-card">
+                <h2>Study guidance</h2>
+                {% include 'study_guide_card.html' with course=course courses=courses guidance=guidance error=error %}
+            </section>
+        </div>
+    </main>
+</div>
 {% endblock %}

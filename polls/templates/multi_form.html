@@ -8,59 +8,59 @@
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
 
     <link rel="stylesheet" href="{% static 'css/add_subject.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <script src="{% static 'js/form-validation.js' %}" defer></script>
 </head>
-<body>
+<body class="app-form-page">
     <div class="wrapper">
         <div class="form-box">
-            <h1 class="mode-heading">{{ wizard_title|default:"Create New Course" }}</h1>
-            <p class="mode-subtitle">{{ wizard_subtitle|default:"Add a new subject to track your performance" }}</p>
-            
-            <h3>{{ step_title|default:"Part A" }}</h3>
-            <p><strong>{{ step_description|default:"EDUCATIONAL INFORMATION" }}</strong></p>
+            <div class="wizard-form-heading">
+                <h1 class="mode-heading">{{ wizard_title|default:"Create New Course" }}</h1>
+                <p class="mode-subtitle">{{ wizard_subtitle|default:"Add a new subject to track your performance" }}</p>
+            </div>
 
-            <!-- Hidden data for JavaScript validation -->
+            <div class="wizard-step-heading">
+                <div>
+                    <h3>{{ step_title|default:"Part A" }}</h3>
+                    <p>{{ step_description|default:"EDUCATIONAL INFORMATION" }}</p>
+                </div>
+                <span class="wizard-step-count">{{ wizard.steps.step1 }} <span>/ {{ wizard.steps.count }}</span></span>
+            </div>
+
             {% if user.is_authenticated and user.student %}
                 <script id="existing-subjects-data" type="application/json">
                     [{% for subject in user.student.subject_entries.all %}"{{ subject.subject_name|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}]
                 </script>
             {% endif %}
 
-            <form method="post"  data-mode="{% if wizard_title == 'New Prediction' %}new_prediction{% else %}not_editing{% endif %}">
+            <form method="post" data-mode="{% if wizard_title == 'New Prediction' %}new_prediction{% else %}not_editing{% endif %}">
                 {% csrf_token %}
                 {{ wizard.management_form }}
-                
+
                 <div class="form-step">
-                    <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
-                    
                     {% if wizard.form.non_field_errors %}
                         <div class="error-section">
                             <h4>Please fix the following errors:</h4>
                             {{ wizard.form.non_field_errors }}
                         </div>
                     {% endif %}
-                    
+
                     {% for field in wizard.form %}
                         <div class="form-field">
                             {{ field.label_tag }}
                             {{ field }}
-                            {% if field.errors %}
-                                {{ field.errors }}
-                            {% endif %}
-                            {% if field.help_text %}
-                                <div class="help-text">{{ field.help_text }}</div>
-                            {% endif %}
+                            {% if field.errors %}{{ field.errors }}{% endif %}
+                            {% if field.help_text %}<div class="help-text">{{ field.help_text }}</div>{% endif %}
                         </div>
                     {% endfor %}
                 </div>
 
                 <div class="buttons">
                     {% if wizard.steps.prev %}
-                        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">← Back</button>
+                        <button class="wizard-back-button" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">← Back</button>
                     {% endif %}
-                    
                     {% if wizard.steps.next %}
-                        <button type="submit">Next →</button>
+                        <button type="submit">Continue <span aria-hidden="true">→</span></button>
                     {% else %}
                         <button type="submit" class="finish-btn">Finish</button>
                     {% endif %}
@@ -74,6 +74,29 @@
                 {% endif %}
             </form>
         </div>
+
+        <aside class="wizard-visual" aria-label="Step illustration">
+            <div class="wizard-visual-topline">
+                <span class="wizard-visual-kicker">YOUR LEARNING JOURNEY</span>
+                <span class="wizard-visual-progress">{{ wizard.steps.step1 }} / {{ wizard.steps.count }}</span>
+            </div>
+            <div class="wizard-illustration">
+                <img src="{% static wizard_visual.image %}" alt="{{ wizard_visual.alt }}">
+            </div>
+            <div class="wizard-visual-copy">
+                <span class="wizard-visual-eyebrow">ACADEMIC BLOOM</span>
+                <h2>{{ wizard_visual.heading }}</h2>
+                <p>{{ wizard_visual.caption }}</p>
+            </div>
+            <div class="wizard-brand">
+                <img src="{% static 'images/gtlogo.png' %}" alt="Academic Bloom logo">
+                <div>
+                    <strong>Academic Bloom</strong>
+                    <span>Small steps. Brighter futures.</span>
+                </div>
+                <span class="wizard-brand-mark" aria-hidden="true">✦</span>
+            </div>
+        </aside>
     </div>
 </body>
 </html>

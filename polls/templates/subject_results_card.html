@@ -1,46 +1,30 @@
-{% load static %}
-
-    
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subject Results</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/subject_results.css' %}">
-</head>
-<body>
-    <div class="subject-results-card">
-        <div class="result-item">
-            <span class="result-label">Hours Studied:</span>
-            <span class="result-value">{{ course.hours_studied }}</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">Previous Scores:</span>
-            <span class="result-value">{{ course.previous_scores }}</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">Extracurricular Activities:</span>
-            <span class="result-value">{{ course.extracurricular }}</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">Sleep Hours:</span>
-            <span class="result-value">{{ course.sleep_hours }}</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">Question Papers Practiced:</span>
-            <span class="result-value">{{ course.question_papers }}</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">Learning Style:</span>
-            <span class="result-value">{{ course.preferred_learning_style }}</span>
-        </div>
-        <div class="result-item highlight">
-            <span class="result-label">Predicted Score:</span>
-            <span class="result-value">{{ course.predicted_score }}%</span>
-        </div>
+<div class="subject-results-card">
+    <div class="result-item">
+        <span class="result-label">Hours studied</span>
+        <span class="result-value">{{ course.hours_studied }}</span>
     </div>
-</body>
-</html>
-       
+    <div class="result-item">
+        <span class="result-label">Previous scores</span>
+        <span class="result-value">{{ course.previous_scores }}%</span>
+    </div>
+    <div class="result-item">
+        <span class="result-label">Extracurricular activities</span>
+        <span class="result-value">{{ course.extracurricular }}</span>
+    </div>
+    <div class="result-item">
+        <span class="result-label">Sleep hours</span>
+        <span class="result-value">{{ course.sleep_hours }}</span>
+    </div>
+    <div class="result-item">
+        <span class="result-label">Question papers practiced</span>
+        <span class="result-value">{{ course.question_papers }}</span>
+    </div>
+    <div class="result-item">
+        <span class="result-label">Learning style</span>
+        <span class="result-value">{{ course.preferred_learning_style }}</span>
+    </div>
+    <div class="result-item highlight">
+        <span class="result-label">Predicted score</span>
+        <span class="result-value">{{ course.predicted_score }}%</span>
+    </div>
+</div>

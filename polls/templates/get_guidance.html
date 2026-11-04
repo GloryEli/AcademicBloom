@@ -3,26 +3,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Advice</title>
     <link rel="stylesheet" href="{% static 'css/guidance.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
 </head>
 <body>
+    <main class="app-guidance">
+        <p class="hero-eyebrow">YOUR LEARNING JOURNEY</p>
+        <h1>Your study guidance</h1>
+        <p>A focused plan for {{ subject.subject_name }}.</p>
 
-    <h2>📚 Your Study Guidance</h2>
-    <p>Here is your advice dear {{ subject.student }} </p>
+        {% if course.study_guide %}
+            <div class="guidance-content">{{ course.study_guide|safe }}</div>
+        {% elif error %}
+            <p class="text-danger">{{ error }}</p>
+        {% endif %}
 
-    <h3>Study Guidance for {{ subject.subject_name }}</h3>
-
-    {% if course.study_guide %}
-        <div class="guidance-content">{{ course.study_guide|safe }}</div>
-    {% elif error %}
-        <p class="text-danger">{{ error }}</p>
-    {% endif %}
-
-    <a href="{% url 'student_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
-    <br><br>
-    <a href="{% url 'get_guidance' %}" class="btn">← Back to Hero Section</a>
+        <a href="{% url 'subject_dashboard' course.id %}" class="btn">Back to course</a>
+        <a href="{% url 'hero' %}" class="btn">Learning home</a>
+    </main>
 
 </body>
 </html>
-

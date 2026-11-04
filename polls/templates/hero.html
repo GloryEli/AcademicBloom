@@ -2,102 +2,88 @@
 {% load static %}
 
 {% block content %}
-<script src="{% static 'js/hero-enhancer.js' %}" defer></script>
 <script src="{% static 'js/dark-mode.js' %}" defer></script>
 
-<div class="main-content">
-    <header class="main-header">
-        <div class="logo-container">
-            <a href="{% url 'hero' %}" class="logo-link">
-                <img src="{% static 'images/gtlogo.png' %}" 
-                    alt="Academic Bloom Logo" 
-                    class="logo-img"/>  
-            </a>
+<header class="main-header">
+    <div class="logo-container">
+        <a href="{% url 'hero' %}" class="logo-link" aria-label="Academic Bloom home">
+            <img src="{% static 'images/gtlogo.png' %}" alt="Academic Bloom" class="logo-img">
+        </a>
+    </div>
+    <div class="page-titles">
+        <h3 class="homepage-header">Your learning space</h3>
+    </div>
+    <div class="header-actions">
+        <div class="auth-buttons">
+            <form action="{% url 'logout' %}" method="post" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="auth-btn logout-btn">Sign out</button>
+            </form>
         </div>
-        <div class="page-titles">
-            <h3 class="homepage-header">{{ user.username }}'s Goals</h3>
+        <div class="dark-mode-toggle-container">
+            <span class="dark-mode-label">Dark Mode</span>
+            <button class="dark-mode-toggle" type="button" aria-label="Toggle dark mode"></button>
         </div>
-        <div class="header-actions">
-            <div class="auth-buttons">
-                <!-- <a href="{% url 'student_dashboard' %}" class="auth-btn dashboard-btn">My Dashboard</a> -->
-                <form action="{% url 'logout' %}" method="POST" class="logout-form">
-                    {% csrf_token %}
-                    <button type="submit" class="auth-btn logout-btn">Logout</button>
-                </form>
+    </div>
+</header>
+
+<main class="hero-container">
+    <section class="hero-welcome" aria-labelledby="welcome-title">
+        <div class="hero-welcome-copy">
+            <p class="hero-eyebrow">YOUR LEARNING JOURNEY</p>
+            <h1 id="welcome-title">Make today a step toward <span>your goals.</span></h1>
+            <p>Welcome, {{ user.username }}. Find your focus, build a study rhythm that works for you, and keep moving forward.</p>
+            <div class="hero-welcome-actions">
+                <a href="{% url 'new_course' %}" class="btn">Add a course <span aria-hidden="true">→</span></a>
+                <a href="{% url 'create_subject_entry' %}" class="btn btn-secondary">Create a study plan</a>
             </div>
-            <!-- Dark mode toggle -->
-            <div class="dark-mode-toggle-container">
-                <span class="dark-mode-label">Dark Mode</span>
-                <button class="dark-mode-toggle" aria-label="Toggle dark mode"></button>
+        </div>
+
+        <div class="hero-visual">
+            <img class="hero-student-art" src="{% static 'images/student-study.svg' %}" alt="A student studying behind a laptop">
+            <div class="hero-signature">
+                <img src="{% static 'images/gtlogo.png' %}" alt="Academic Bloom logo">
+                <div class="hero-signature-copy">
+                    <span class="hero-signature-label">GROW WITH PURPOSE</span>
+                    <strong>Academic <em>Bloom</em></strong>
+                </div>
             </div>
         </div>
-    </header>
+    </section>
 
-    <main class="hero-container">
-        
-        {% if latest_entry %}
-        <div class="prediction-card">
-            <h3> Predicted Score: {{ latest_entry.predicted_score }}%</h3>
-            <p><strong>Study Plan:</strong> {{ latest_entry.study_plan }}</p>
-        </div>
-        {% else %}
-            <p class="no-prediction">Welcome to Academic Bloom - Achieve your academic goals today. </p>
-        {% endif %}
-
-        <div class="button-group">
-            <a href="{% url 'new_course' %}" class="hero-btn btn">Add New Course</a>
-             <a href="{% url 'create_subject_entry' %}" class="hero-btn btn">Create Study Plan</a>
-        </div>
-
-        <section class="cards">
-            <div class="card">
-                <h4> Course Performance</h4>
-                <ul class="courses-list">
-                    
-                    <li>
-                       <p>
-                        Add a course and fill out a multi-step form
-                       </p>
-                    </li>
-                    <li>
-                       <p>
-                        View your predicted score 
-                       </p>
-                    </li>
-                    <li>
-                       <p>
-                        Generate a study guide for the best performace
-                       </p>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h4> Your Plans</h4>
-                <ul class="courses-list"> 
-                    <li>
-                       <p>
-                        To achieve a goal, you need a plan
-                       </p>
-                    </li>
-                    <li>
-                       <p>
-                        Fill out the study plan form 
-                       </p>
-                    </li>
-                    <li>
-                       <p>
-                        Tweek your habits and be a high achiever
-                       </p>
-                    </li>
-                </ul>
+    {% if latest_entry and latest_entry.predicted_score %}
+        <section class="hero-progress" aria-label="Latest course prediction">
+            <div class="hero-progress-score">{{ latest_entry.predicted_score|floatformat:0 }}%</div>
+            <div class="hero-progress-copy">
+                <strong>Your latest predicted score</strong>
+                <span>{{ latest_entry.subject_name }} · Keep building on your progress</span>
             </div>
         </section>
+    {% endif %}
 
-        <section class="preferred-learning-style">
-            <h4> Hi, {{ user.username }}  </h4>
-            <p> Here at Academic Bloom, you can be a high achiever with the right strategies, support, and resources.</p>
-        </section>
-    </main>
-</div>
+    <section class="cards" aria-label="Ways to grow with Academic Bloom">
+        <article class="card">
+            <h4>Understand your progress</h4>
+            <ul class="courses-list">
+                <li><p>Add a course and track the habits that support your learning.</p></li>
+                <li><p>Get a personalized score prediction based on your study routine.</p></li>
+                <li><p>Review your course history and celebrate your progress.</p></li>
+            </ul>
+        </article>
+
+        <article class="card">
+            <h4>Make a plan that works</h4>
+            <ul class="courses-list">
+                <li><p>Turn your academic goals into practical next steps.</p></li>
+                <li><p>Get focused study guidance for each of your courses.</p></li>
+                <li><p>Build consistent habits at a pace that feels right for you.</p></li>
+            </ul>
+        </article>
+    </section>
+
+    <section class="preferred-learning-style">
+        <h4>Every step counts, {{ user.username }}.</h4>
+        <p>Start with one goal today. Academic Bloom is here to help you stay focused and keep growing.</p>
+    </section>
+</main>
 {% endblock %}

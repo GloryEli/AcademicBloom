@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f9fd">
     <title>{% block title %}Academic Bloom{% endblock %}</title>
     
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
@@ -13,8 +14,9 @@
     <link rel="stylesheet" href="{% static 'css/hero.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles_preview.css' %}">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
 </head>
-<body>
+<body class="app-shell">
     <div class="layout-container">
         
         <aside class="sidebar" id="sidebar">
@@ -23,13 +25,12 @@
         </aside>
 
         <!-- Main content area -->
-        <main class="main-content" id="mainContent">
+        <div class="main-content" id="mainContent">
             {% block content %}{% endblock %}
-        </main>
+        </div>
 
         <button class="toggle-sidebar" id="toggleSidebar">❯</button>
     </div>
     <script src="{% static 'js/sidebar.js' %}"></script>
 </body>
 </html>
-
