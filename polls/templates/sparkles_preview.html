@@ -3,48 +3,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Academic Bloom</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+    <title>Academic Bloom | Study with purpose</title>
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-    
-    <link href="{% static 'css/output.css' %}" rel="stylesheet">
-    <link href="{% static 'css/styles_preview.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/onboarding.css' %}">
 </head>
-<body>
-    <header class="main-header">
-
-        <div class="logo-container">
-            <a href="{% url 'hero' %}" class="logo-link">
-                <img src="{% static 'images/gtlogo.png' %}" 
-                    alt="Academic Bloom Logo" 
-                    class="logo-img"/>  
-            </a>
-        </div>
-
-        <div class="auth-buttons">
-            <a href="{% url 'login' %}" class="auth-btn sign-in">Sign In</a>
-            <a href="{% url 'signup' %}" class="auth-btn sign-up">Sign Up</a>
-        </div>
+<body class="onboarding">
+    <header class="onboarding-header">
+        <a class="brand" href="{% url 'home' %}" aria-label="Academic Bloom home">
+            <img src="{% static 'images/gtlogo.png' %}" alt="">
+            <span>Academic <strong>Bloom</strong></span>
+        </a>
+        <nav class="account-nav" aria-label="Account">
+            <a class="sign-in" href="{% url 'login' %}">Sign in</a>
+            <a class="nav-cta" href="{% url 'signup' %}">Create account</a>
+        </nav>
     </header>
 
-    <div class="golden-rays"></div>
+    <main class="welcome">
+        <section class="welcome-copy" aria-labelledby="welcome-title">
+            <p class="eyebrow"><span aria-hidden="true"></span> Your next chapter starts here</p>
+            <h1 id="welcome-title">Make room for <span>what you can achieve.</span></h1>
+            <p class="welcome-description">
+                Turn your academic goals into a clear plan. Build study habits that work for you and keep moving forward, one step at a time.
+            </p>
+            <div class="welcome-actions">
+                <a class="primary-cta" href="{% url 'signup' %}">Get started <span aria-hidden="true">→</span></a>
+                <a class="secondary-cta" href="{% url 'login' %}">I already have an account</a>
+            </div>
+            <p class="welcome-note"><span aria-hidden="true">✦</span> Your goals. Your pace. Your progress.</p>
+        </section>
 
-    <div class="main-container">
-        
-        <div class="content-wrapper">
-            <h2 class="title">Academic Bloom</h2>
-
-            <canvas class="canvas" id="particles-canvas"></canvas>
-            
-            <div class="subtitle">
-                <div class="sub_1">Set your goal</div>
-                <div class="sub_2">Tweak habits</div>
-                <div class="sub_3">Succeed</div>
-        </div>
-        </div>
-    </div>
-    <script src="{% static 'js/custom-particles.js' %}"></script>
+        <aside class="journey-art" aria-label="Set goals, build habits, and track your progress">
+            <div class="art-glow"></div>
+            <div class="orbit orbit-outer"></div>
+            <div class="orbit orbit-inner"></div>
+            <div class="bloom-mark" aria-hidden="true">
+                <span class="bloom-petal petal-one"></span>
+                <span class="bloom-petal petal-two"></span>
+                <span class="bloom-petal petal-three"></span>
+                <span class="bloom-petal petal-four"></span>
+                <span class="bloom-center"></span>
+            </div>
+            <div class="journey-chip chip-goal"><span class="chip-icon icon-goal">◎</span><span>Set a goal</span></div>
+            <div class="journey-chip chip-habit"><span class="chip-icon icon-habit">↗</span><span>Build a habit</span></div>
+            <div class="journey-chip chip-progress"><span class="chip-icon icon-progress">✓</span><span>Track progress</span></div>
+            <div class="art-caption"><span class="caption-line"></span><span>A little progress adds up</span></div>
+        </aside>
+    </main>
 </body>
 </html>

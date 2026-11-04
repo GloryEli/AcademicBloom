@@ -1,0 +1,570 @@
+:root {
+    color-scheme: light;
+    --ink: #12304a;
+    --ink-soft: #526b80;
+    --blue: #1976c9;
+    --blue-deep: #135ba0;
+    --cyan: #38bdd0;
+    --line: #e3edf4;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-width: 320px;
+    min-height: 100%;
+}
+
+body.onboarding {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    background:
+        radial-gradient(ellipse at 78% 48%, rgba(52, 190, 211, 0.09), transparent 34rem),
+        linear-gradient(135deg, #fff 0%, #fbfdff 58%, #f3faff 100%);
+    color: var(--ink);
+    font-family: Inter, "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.onboarding a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.onboarding a:focus-visible {
+    outline: 3px solid rgba(25, 118, 201, 0.32);
+    outline-offset: 4px;
+}
+
+.onboarding-header {
+    position: relative;
+    z-index: 1;
+    width: min(1280px, calc(100% - 96px));
+    height: 88px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(227, 237, 244, 0.8);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    color: var(--ink);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    text-decoration: none;
+}
+
+.brand img {
+    display: block;
+    width: 43px;
+    height: 43px;
+    object-fit: contain;
+}
+
+.brand strong {
+    color: var(--blue);
+    font-weight: 750;
+}
+
+.account-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.account-nav a {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.account-nav .sign-in:hover {
+    color: var(--blue);
+}
+
+.account-nav .nav-cta {
+    padding: 11px 18px;
+    border: 1px solid #d5e7f3;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.86);
+    color: var(--blue-deep);
+}
+
+.account-nav .nav-cta:hover {
+    border-color: #b7d9ec;
+    background: #f2faff;
+}
+
+.welcome {
+    width: min(1280px, calc(100% - 96px));
+    min-height: calc(100vh - 89px);
+    margin: 0 auto;
+    padding: 52px 0 74px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(390px, 0.92fr);
+    align-items: center;
+    gap: clamp(32px, 6vw, 92px);
+}
+
+.welcome-copy {
+    position: relative;
+    z-index: 1;
+    max-width: 620px;
+    padding-bottom: 10px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 25px;
+    color: #397c9b;
+    font-size: 0.76rem;
+    font-weight: 750;
+    letter-spacing: 0.15em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.eyebrow span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 0 5px rgba(56, 189, 208, 0.12);
+}
+
+.welcome h1 {
+    max-width: 650px;
+    margin: 0;
+    color: #102c46;
+    font-size: clamp(3.2rem, 5.5vw, 5.25rem);
+    font-weight: 740;
+    letter-spacing: -0.067em;
+    line-height: 1.03;
+}
+
+.welcome h1 span {
+    color: var(--blue);
+}
+
+.welcome-description {
+    max-width: 495px;
+    margin: 25px 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1rem, 1.35vw, 1.13rem);
+    line-height: 1.8;
+}
+
+.welcome-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: 32px;
+}
+
+.primary-cta {
+    min-height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 17px;
+    padding: 0 21px;
+    border: 1px solid var(--blue);
+    border-radius: 10px;
+    background: var(--blue);
+    box-shadow: 0 8px 18px rgba(25, 118, 201, 0.17);
+    color: #fff;
+    font-size: 0.93rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.primary-cta span {
+    font-size: 1.2rem;
+    font-weight: 400;
+    transition: transform 160ms ease;
+}
+
+.primary-cta:hover {
+    transform: translateY(-2px);
+    background: var(--blue-deep);
+    box-shadow: 0 11px 22px rgba(25, 118, 201, 0.23);
+}
+
+.primary-cta:hover span {
+    transform: translateX(3px);
+}
+
+.secondary-cta {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: color 160ms ease;
+}
+
+.secondary-cta:hover {
+    color: var(--blue);
+}
+
+.welcome-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 43px 0 0;
+    color: #7d93a5;
+    font-size: 0.81rem;
+    font-weight: 550;
+    letter-spacing: 0.015em;
+}
+
+.welcome-note span {
+    color: var(--cyan);
+    font-size: 1rem;
+}
+
+.journey-art {
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    aspect-ratio: 1 / 0.93;
+    justify-self: end;
+    isolation: isolate;
+}
+
+.art-glow {
+    position: absolute;
+    z-index: -1;
+    top: 12%;
+    left: 12%;
+    width: 76%;
+    height: 76%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(90, 202, 217, 0.19), rgba(111, 190, 229, 0.08) 49%, transparent 72%);
+    filter: blur(7px);
+}
+
+.orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid rgba(77, 165, 206, 0.16);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.orbit-outer {
+    width: 83%;
+    height: 83%;
+}
+
+.orbit-inner {
+    width: 63%;
+    height: 63%;
+    border-style: dashed;
+    border-color: rgba(77, 165, 206, 0.2);
+}
+
+.bloom-mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 194px;
+    height: 194px;
+    transform: translate(-50%, -50%);
+}
+
+.bloom-petal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 77px;
+    height: 103px;
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    border-radius: 54% 54% 48% 48%;
+    background: linear-gradient(155deg, rgba(104, 217, 222, 0.88), rgba(37, 135, 205, 0.91));
+    box-shadow: 0 9px 25px rgba(31, 126, 181, 0.13), inset 0 1px 5px rgba(255, 255, 255, 0.45);
+    transform-origin: 50% 88%;
+}
+
+.petal-one {
+    transform: translate(-50%, -88%) rotate(0deg);
+}
+
+.petal-two {
+    transform: translate(-50%, -88%) rotate(90deg);
+}
+
+.petal-three {
+    transform: translate(-50%, -88%) rotate(180deg);
+}
+
+.petal-four {
+    transform: translate(-50%, -88%) rotate(270deg);
+}
+
+.bloom-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 34px;
+    height: 34px;
+    border: 5px solid rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    background: #effcff;
+    box-shadow: 0 3px 14px rgba(28, 101, 151, 0.15);
+    transform: translate(-50%, -50%);
+}
+
+.journey-chip {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 15px 11px 11px;
+    border: 1px solid rgba(224, 238, 246, 0.9);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 9px 28px rgba(25, 71, 104, 0.09);
+    color: #334e65;
+    font-size: 0.82rem;
+    font-weight: 650;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+}
+
+.chip-goal {
+    top: 17%;
+    left: 1%;
+}
+
+.chip-habit {
+    top: 36%;
+    right: -1%;
+}
+
+.chip-progress {
+    bottom: 17%;
+    left: 11%;
+}
+
+.chip-icon {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.icon-goal {
+    background: #e8f6ff;
+    color: #267cba;
+}
+
+.icon-habit {
+    background: #e8fbfa;
+    color: #168d91;
+}
+
+.icon-progress {
+    background: #eef4ff;
+    color: #4774bc;
+}
+
+.art-caption {
+    position: absolute;
+    right: 3%;
+    bottom: 9%;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #7891a4;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.caption-line {
+    width: 24px;
+    height: 1px;
+    background: #55b9cc;
+}
+
+@media (max-width: 900px) {
+    .onboarding-header,
+    .welcome {
+        width: min(100% - 56px, 700px);
+    }
+
+    .welcome {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 76px 0 52px;
+    }
+
+    .welcome-copy {
+        max-width: 680px;
+    }
+
+    .welcome h1 {
+        max-width: 660px;
+        font-size: clamp(3.1rem, 9vw, 5rem);
+    }
+
+    .journey-art {
+        width: min(100%, 470px);
+        justify-self: center;
+    }
+
+    .welcome-note {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 520px) {
+    .onboarding-header,
+    .welcome {
+        width: calc(100% - 40px);
+    }
+
+    .onboarding-header {
+        height: 72px;
+    }
+
+    .brand {
+        gap: 8px;
+        font-size: 0.93rem;
+    }
+
+    .brand img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .account-nav {
+        gap: 13px;
+    }
+
+    .account-nav a {
+        font-size: 0.8rem;
+    }
+
+    .account-nav .nav-cta {
+        padding: 9px 11px;
+        border-radius: 9px;
+    }
+
+    .welcome {
+        gap: 16px;
+        padding: 63px 0 38px;
+    }
+
+    .eyebrow {
+        margin-bottom: 19px;
+        font-size: 0.67rem;
+    }
+
+    .welcome h1 {
+        font-size: clamp(2.75rem, 13vw, 4rem);
+    }
+
+    .welcome-description {
+        margin-top: 19px;
+        font-size: 0.97rem;
+        line-height: 1.7;
+    }
+
+    .welcome-actions {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 17px;
+        margin-top: 25px;
+    }
+
+    .primary-cta {
+        min-height: 49px;
+    }
+
+    .welcome-note {
+        margin-top: 25px;
+        font-size: 0.75rem;
+    }
+
+    .journey-art {
+        width: min(100%, 390px);
+        margin-top: 4px;
+    }
+
+    .bloom-mark {
+        width: 150px;
+        height: 150px;
+    }
+
+    .bloom-petal {
+        width: 60px;
+        height: 80px;
+    }
+
+    .bloom-center {
+        width: 27px;
+        height: 27px;
+        border-width: 4px;
+    }
+
+    .journey-chip {
+        gap: 7px;
+        padding: 8px 10px 8px 8px;
+        border-radius: 11px;
+        font-size: 0.72rem;
+    }
+
+    .chip-icon {
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+    }
+
+    .chip-goal {
+        top: 15%;
+    }
+
+    .chip-habit {
+        right: 0;
+    }
+
+    .chip-progress {
+        bottom: 15%;
+        left: 4%;
+    }
+
+    .art-caption {
+        right: 0;
+        bottom: 7%;
+        font-size: 0.65rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
