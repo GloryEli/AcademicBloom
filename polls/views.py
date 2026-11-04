@@ -244,6 +244,40 @@ class SubjectWizard(SessionWizardView):
         elif self.steps.current == '4':
             context['step_title'] = 'Study Preparation'
             context['step_description'] = 'Additional information about your study habits'
+
+        step_visuals = {
+            '0': {
+                'image': 'images/wizard-subject.svg',
+                'alt': 'Student studying at her computer',
+                'heading': 'Start with what inspires you.',
+                'caption': 'Choose a subject and set the direction for your learning journey.',
+            },
+            '1': {
+                'image': 'images/wizard-hours.svg',
+                'alt': 'Student planning study time beside a clock',
+                'heading': 'Make time for your goals.',
+                'caption': 'A steady study rhythm can turn focused hours into lasting progress.',
+            },
+            '2': {
+                'image': 'images/wizard-activities.svg',
+                'alt': 'Student writing an idea on a classroom board',
+                'heading': 'Learning happens everywhere.',
+                'caption': 'Your activities and interests are part of what makes your progress unique.',
+            },
+            '3': {
+                'image': 'images/wizard-sleep.svg',
+                'alt': 'Student resting peacefully under a crescent moon',
+                'heading': 'Rest is part of the plan.',
+                'caption': 'Healthy routines give your mind space to recharge and grow.',
+            },
+            '4': {
+                'image': 'images/wizard-preparation.svg',
+                'alt': 'Teacher presenting a lesson at the board',
+                'heading': 'Find the way you learn best.',
+                'caption': 'A little preparation helps turn your strengths into a confident next step.',
+            },
+        }
+        context['wizard_visual'] = step_visuals[self.steps.current]
             
         return context
 
@@ -474,6 +508,7 @@ def hero_view(request):
 
     return render(request, 'hero.html', {
         'latest_score': latest_score,
+        'latest_entry': latest_score,
         'recent_feedback': recent_feedback,
         'courses': courses,
         'current_page': 'hero'
