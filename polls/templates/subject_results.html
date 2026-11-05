@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+    <title>{{ subject_entry.subject_name }} results | Academic Bloom</title>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/onboarding.css' %}">
+    <link rel="stylesheet" href="{% static 'css/subject_results.css' %}">
+</head>
+<body class="onboarding results-page">
+    <header class="onboarding-header">
+        <a class="brand" href="{% url 'hero' %}" aria-label="Academic Bloom home">
+            <img src="{% static 'images/gtlogo.png' %}" alt="">
+            <span>Academic <strong>Bloom</strong></span>
+        </a>
+        <nav class="account-nav" aria-label="Course navigation">
+            <a class="sign-in" href="{% url 'course_history' subject_entry.id %}">View history</a>
+            <a class="nav-cta" href="{% url 'subject_dashboard' subject_entry.id %}">Dashboard</a>
+        </nav>
+    </header>
+
+    <main class="results-main">
+        <section class="results-intro" aria-labelledby="results-title">
+            <p class="eyebrow"><span aria-hidden="true"></span> Your learning snapshot</p>
+            <h1 id="results-title">A clearer view of <span>{{ subject_entry.subject_name }}.</span></h1>
+            <p class="results-description">Here’s a look at your current study habits and the score they’re projected to support.</p>
+        </section>
+
+        <section class="results-grid" aria-label="Course results">
+            <article class="score-card">
+                <p class="card-eyebrow">Predicted score</p>
+                {% if subject_entry.predicted_score or subject_entry.predicted_score == 0 %}
+                    <p class="score-value">{{ subject_entry.predicted_score|floatformat:1 }}<span>%</span></p>
+                {% else %}
+                    <p class="score-value score-unavailable">Not available</p>
+                {% endif %}
+                <p class="score-caption">A useful estimate to help you notice progress and choose your next step.</p>
+                <a class="primary-cta" href="{% url 'new_prediction' subject_entry.id %}">Update your prediction <span aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="study-card" aria-labelledby="study-title">
+                <div class="study-card-heading">
+                    <p class="card-eyebrow">Your study profile</p>
+                    <h2 id="study-title">The habits behind your result</h2>
+                </div>
+                <dl class="study-metrics">
+                    <div class="study-metric">
+                        <dt>Hours studied</dt>
+                        <dd>{{ subject_entry.hours_studied }}</dd>
+                    </div>
+                    <div class="study-metric">
+                        <dt>Previous score</dt>
+                        <dd>{{ subject_entry.previous_scores }}%</dd>
+                    </div>
+                    <div class="study-metric">
+                        <dt>Sleep each night</dt>
+                        <dd>{{ subject_entry.sleep_hours }} hours</dd>
+                    </div>
+                    <div class="study-metric">
+                        <dt>Practice papers</dt>
+                        <dd>{{ subject_entry.question_papers }}</dd>
+                    </div>
+                    <div class="study-metric">
+                        <dt>Extracurriculars</dt>
+                        <dd>{{ subject_entry.extracurricular }}</dd>
+                    </div>
+                    <div class="study-metric">
+                        <dt>Motivation</dt>
+                        <dd>{{ subject_entry.motivation }}</dd>
+                    </div>
+                    <div class="study-metric study-metric-wide">
+                        <dt>Learning style</dt>
+                        <dd>{{ subject_entry.preferred_learning_style }}</dd>
+                    </div>
+                </dl>
+            </article>
+        </section>
+
+        {% if subject_entry.study_guide %}
+            <section class="guidance-card" aria-labelledby="guidance-title">
+                <p class="card-eyebrow">A helpful next step</p>
+                <h2 id="guidance-title">Study guidance</h2>
+                <div class="guidance-copy">{{ subject_entry.study_guide|linebreaksbr }}</div>
+            </section>
+        {% endif %}
+    </main>
+</body>
+</html>
