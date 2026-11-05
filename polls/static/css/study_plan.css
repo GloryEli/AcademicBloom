@@ -426,5 +426,6 @@
     .plan-form-actions > *,
     .plan-detail-actions > * {
         width: 100%;
+        box-sizing: border-box;
     }
 }

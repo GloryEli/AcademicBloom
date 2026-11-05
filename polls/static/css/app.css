@@ -1132,6 +1132,7 @@ h6 {
         min-height: 64px;
         padding: 0 14px;
         gap: 8px;
+        box-sizing: border-box;
     }
 
     .logo-container img,
@@ -1264,6 +1265,7 @@ h6 {
         left: 10px;
         width: 36px;
         height: 36px;
+        z-index: 1010;
     }
 
     .toggle-sidebar.active {
@@ -1274,6 +1276,23 @@ h6 {
         width: min(290px, calc(100vw - 44px));
         height: calc(100vh - 64px);
         margin-top: 64px;
+        z-index: 1000;
+        background: var(--bg-primary);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .sidebar-overlay {
+        z-index: 990;
+        background: rgba(18, 48, 74, 0.38);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .main-header {
+        left: 0;
+        right: 0;
+        width: 100%;
     }
 }
 
@@ -1542,24 +1561,71 @@ h6 {
 
 @media (max-width: 560px) {
     .app-form-page .wrapper {
-        padding: 16px;
+        min-height: 100svh;
+        padding: 14px;
+        gap: 14px;
     }
 
     .app-form-page .form-box {
-        padding: 23px 20px;
+        width: 100%;
+        padding: 24px 20px;
+        border-radius: 18px;
+    }
+
+    .app-form-page .form-box input,
+    .app-form-page .form-box select,
+    .app-form-page .form-box textarea {
+        min-height: 48px;
+        font-size: 16px;
+    }
+
+    .app-form-page .mode-heading {
+        font-size: clamp(1.7rem, 8vw, 2rem);
+    }
+
+    .app-form-page .wizard-form-heading {
+        margin-bottom: 24px;
+    }
+
+    .app-form-page .wizard-step-heading {
+        align-items: flex-start;
+        margin-bottom: 18px;
+    }
+
+    .app-form-page .form-box .buttons {
+        gap: 10px;
+    }
+
+    .app-form-page .form-box .buttons button {
+        min-height: 46px;
+        flex: 1 1 130px;
     }
 
     .wizard-visual {
-        min-height: 490px;
-        padding: 20px;
-        border-radius: 22px;
+        min-height: 0;
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .wizard-visual-copy {
+        margin-bottom: 16px;
     }
 
     .wizard-illustration {
-        min-height: 220px;
+        min-height: 150px;
+        max-height: 190px;
     }
 
     .wizard-illustration img {
-        max-height: 285px;
+        max-height: 180px;
+    }
+
+    .wizard-brand {
+        padding: 9px 11px;
+    }
+
+    .wizard-brand img {
+        width: 40px;
+        height: 40px;
     }
 }
