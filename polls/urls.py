@@ -20,6 +20,8 @@ urlpatterns = [
     
     path('new-course/', views.new_course, name='new_course'),   
     path('results/<int:subject_id>/', subject_results_view, name='subject_results'),
+    path('study-plans/create/', views.create_study_plan, name='create_study_plan'),
+    path('study-plans/<int:plan_id>/', views.study_plan_detail, name='study_plan_detail'),
     
     # path("generate-study-plan/<int:entry_id>/", views.generate_study_plan, name="generate_study_plan"),
     path('hero/', views.hero_view, name='hero'),
@@ -38,4 +40,3 @@ urlpatterns = [
 
     path('course/<int:course_id>/history/', views.course_history_dashboard, name='course_history'),
 ]
-

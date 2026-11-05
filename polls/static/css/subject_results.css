@@ -1,0 +1,246 @@
+.results-page {
+    background:
+        radial-gradient(ellipse at 82% 32%, rgba(52, 190, 211, 0.09), transparent 34rem),
+        linear-gradient(135deg, #fff 0%, #fbfdff 58%, #f3faff 100%);
+}
+
+.results-page .account-nav .nav-cta {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+}
+
+.results-page .account-nav .nav-cta:hover {
+    background: var(--blue-deep);
+    border-color: var(--blue-deep);
+}
+
+.results-main {
+    width: min(1120px, calc(100% - 96px));
+    margin: 0 auto;
+    padding: clamp(42px, 7vw, 82px) 0 72px;
+}
+
+.results-intro {
+    max-width: 720px;
+    margin-bottom: 32px;
+}
+
+.results-intro .eyebrow {
+    margin-bottom: 17px;
+}
+
+.results-intro h1 {
+    margin: 0;
+    color: #102c46;
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    font-weight: 740;
+    letter-spacing: -0.067em;
+    line-height: 1.06;
+    overflow-wrap: anywhere;
+}
+
+.results-intro h1 span {
+    color: var(--blue);
+}
+
+.results-description {
+    max-width: 550px;
+    margin: 18px 0 0;
+    color: var(--ink-soft);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.22fr);
+    align-items: stretch;
+    gap: 18px;
+}
+
+.score-card,
+.study-card,
+.guidance-card {
+    border: 1px solid rgba(222, 235, 244, 0.95);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 14px 40px rgba(27, 74, 106, 0.08);
+}
+
+.score-card {
+    position: relative;
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(25px, 4vw, 38px);
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 100% 0, rgba(56, 189, 208, 0.15), transparent 15rem),
+        rgba(255, 255, 255, 0.96);
+}
+
+.card-eyebrow {
+    margin: 0;
+    color: #338da1;
+    font-size: 0.69rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.score-value {
+    margin: 18px 0 0;
+    color: var(--blue);
+    font-size: clamp(3.8rem, 7vw, 5.2rem);
+    font-weight: 760;
+    letter-spacing: -0.075em;
+    line-height: 1;
+}
+
+.score-value span {
+    margin-left: 4px;
+    font-size: 0.48em;
+    letter-spacing: -0.04em;
+}
+
+.score-value.score-unavailable {
+    font-size: clamp(2.3rem, 4vw, 3rem);
+    letter-spacing: -0.055em;
+}
+
+.score-caption {
+    max-width: 300px;
+    margin: 16px 0 24px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.75;
+}
+
+.results-page .primary-cta {
+    min-height: 47px;
+    margin-top: auto;
+    padding: 0 16px;
+    border-radius: 9px;
+    background: var(--blue);
+    box-shadow: 0 7px 16px rgba(25, 118, 201, 0.16);
+    color: #fff;
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.results-page .primary-cta:hover {
+    background: var(--blue-deep);
+    box-shadow: 0 9px 19px rgba(25, 118, 201, 0.21);
+}
+
+.results-page .primary-cta span {
+    margin-left: 4px;
+}
+
+.study-card {
+    padding: clamp(25px, 4vw, 34px);
+}
+
+.study-card-heading h2,
+.guidance-card h2 {
+    margin: 8px 0 0;
+    color: var(--ink);
+    font-size: 1.45rem;
+    font-weight: 720;
+    letter-spacing: -0.045em;
+}
+
+.study-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 23px 0 0;
+}
+
+.study-metric {
+    min-width: 0;
+    padding: 14px 15px;
+    border: 1px solid #e5eef4;
+    border-radius: 11px;
+    background: #fbfdff;
+}
+
+.study-metric dt {
+    color: #71879a;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.study-metric dd {
+    margin: 5px 0 0;
+    color: #294861;
+    font-size: 0.98rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.study-metric-wide {
+    grid-column: 1 / -1;
+}
+
+.guidance-card {
+    margin-top: 18px;
+    padding: clamp(24px, 4vw, 34px);
+}
+
+.guidance-copy {
+    margin-top: 12px;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    line-height: 1.8;
+}
+
+@media (max-width: 760px) {
+    .results-main {
+        width: min(100% - 56px, 640px);
+        padding-top: 52px;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .results-main {
+        width: calc(100% - 40px);
+        padding: 42px 0 48px;
+    }
+
+    .results-intro {
+        margin-bottom: 24px;
+    }
+
+    .results-intro h1 {
+        font-size: clamp(2.45rem, 12vw, 3.5rem);
+    }
+
+    .results-description {
+        margin-top: 14px;
+        font-size: 0.94rem;
+    }
+
+    .study-metrics {
+        gap: 8px;
+    }
+
+    .study-metric {
+        padding: 12px;
+    }
+
+    .study-metric dt {
+        font-size: 0.7rem;
+    }
+
+    .study-metric dd {
+        font-size: 0.9rem;
+    }
+}

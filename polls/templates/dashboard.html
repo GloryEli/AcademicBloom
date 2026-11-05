@@ -32,7 +32,13 @@
     <main class="history-container">
         <div class="dashboard-header">
             <h1>{{ course.subject_name }} dashboard</h1>
-            <a href="{% url 'new_prediction' course.id %}" class="btn">New prediction</a>
+            <div class="dashboard-actions">
+                {% if latest_study_plan %}
+                    <a href="{% url 'study_plan_detail' latest_study_plan.id %}" class="btn btn-secondary">View study plan</a>
+                {% endif %}
+                <a href="{% url 'create_study_plan' %}?course={{ course.id }}" class="btn btn-secondary">Create study plan</a>
+                <a href="{% url 'new_prediction' course.id %}" class="btn">New prediction</a>
+            </div>
         </div>
 
         <div class="dashboard-container">

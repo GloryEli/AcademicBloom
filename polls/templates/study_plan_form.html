@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create a study plan | Academic Bloom{% endblock %}
+
+{% block content %}
+<script src="{% static 'js/dark-mode.js' %}" defer></script>
+
+<header class="main-header">
+    <div class="logo-container">
+        <a href="{% url 'hero' %}" class="logo-link" aria-label="Academic Bloom home">
+            <img src="{% static 'images/gtlogo.png' %}" alt="Academic Bloom" class="logo-img">
+        </a>
+    </div>
+    <div class="page-titles">
+        <h3 class="homepage-header">Make a plan that fits you</h3>
+    </div>
+    <div class="header-actions">
+        <a href="{% url 'hero' %}" class="auth-btn">Learning home</a>
+        <div class="dark-mode-toggle-container">
+            <span class="dark-mode-label">Dark Mode</span>
+            <button class="dark-mode-toggle" type="button" aria-label="Toggle dark mode"></button>
+        </div>
+    </div>
+</header>
+
+<main class="study-plan-layout">
+    <section class="study-plan-intro">
+        <p class="plan-eyebrow"><span aria-hidden="true"></span> A plan made around you</p>
+        <h1>Small, steady steps add up to <span>big progress.</span></h1>
+        <p>Choose a course and the days that suit your week. Academic Bloom will shape a practical study rhythm around your goals, current progress, and learning style.</p>
+    </section>
+
+    <section class="study-plan-form-card" aria-labelledby="plan-form-title">
+        <div class="plan-form-heading">
+            <div>
+                <p class="plan-card-eyebrow">Your weekly rhythm</p>
+                <h2 id="plan-form-title">Let’s build your study plan</h2>
+            </div>
+            <span class="plan-heading-mark" aria-hidden="true">✦</span>
+        </div>
+
+        {% if not courses %}
+            <div class="plan-empty-state">
+                <h3>Start by adding a course</h3>
+                <p>Your course details help us make a plan that fits your study habits and learning style.</p>
+                <a class="plan-submit" href="{% url 'new_course' %}">Add your first course <span aria-hidden="true">→</span></a>
+            </div>
+        {% else %}
+            <form method="post" class="study-plan-form">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="plan-errors" role="alert">{{ form.non_field_errors }}</div>
+                {% endif %}
+
+                <div class="plan-field">
+                    <label for="{{ form.course.id_for_label }}">{{ form.course.label }}</label>
+                    {{ form.course }}
+                    {% if form.course.errors %}<div class="plan-field-error" role="alert">{{ form.course.errors }}</div>{% endif %}
+                    <p class="plan-help">We’ll use the course’s saved progress and learning preferences to personalize your sessions.</p>
+                </div>
+
+                <fieldset class="plan-field plan-days">
+                    <legend>{{ form.study_days.label }}</legend>
+                    <p class="plan-help">Pick the days you can realistically set aside for learning.</p>
+                    {{ form.study_days }}
+                    {% if form.study_days.errors %}<div class="plan-field-error" role="alert">{{ form.study_days.errors }}</div>{% endif %}
+                </fieldset>
+
+                <div class="plan-field">
+                    <label for="{{ form.session_minutes.id_for_label }}">{{ form.session_minutes.label }}</label>
+                    {{ form.session_minutes }}
+                    {% if form.session_minutes.errors %}<div class="plan-field-error" role="alert">{{ form.session_minutes.errors }}</div>{% endif %}
+                    <p class="plan-help">Short, focused sessions can make it easier to build a steady habit.</p>
+                </div>
+
+                <div class="plan-form-actions">
+                    <a class="plan-cancel" href="{% url 'hero' %}">Maybe later</a>
+                    <button class="plan-submit" type="submit">Create my plan <span aria-hidden="true">→</span></button>
+                </div>
+            </form>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

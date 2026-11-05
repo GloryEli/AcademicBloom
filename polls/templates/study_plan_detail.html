@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ plan.course.subject_name }} study plan | Academic Bloom{% endblock %}
+
+{% block content %}
+<script src="{% static 'js/dark-mode.js' %}" defer></script>
+
+<header class="main-header">
+    <div class="logo-container">
+        <a href="{% url 'hero' %}" class="logo-link" aria-label="Academic Bloom home">
+            <img src="{% static 'images/gtlogo.png' %}" alt="Academic Bloom" class="logo-img">
+        </a>
+    </div>
+    <div class="page-titles">
+        <h3 class="homepage-header">{{ plan.course.subject_name }} study plan</h3>
+    </div>
+    <div class="header-actions">
+        <a href="{% url 'subject_dashboard' plan.course.id %}" class="auth-btn">Course dashboard</a>
+        <div class="dark-mode-toggle-container">
+            <span class="dark-mode-label">Dark Mode</span>
+            <button class="dark-mode-toggle" type="button" aria-label="Toggle dark mode"></button>
+        </div>
+    </div>
+</header>
+
+<main class="study-plan-layout study-plan-detail">
+    <section class="study-plan-intro">
+        <p class="plan-eyebrow"><span aria-hidden="true"></span> Your personal weekly plan</p>
+        <h1>A steady rhythm for <span>{{ plan.course.subject_name }}.</span></h1>
+        <p>Built around {{ plan.study_days|length }} study days a week, with focused {{ plan.session_minutes }}-minute sessions shaped by your current progress and learning style.</p>
+    </section>
+
+    <section class="weekly-schedule" aria-labelledby="schedule-title">
+        <div class="schedule-heading">
+            <div>
+                <p class="plan-card-eyebrow">Your week at a glance</p>
+                <h2 id="schedule-title">A little focus, a lot of momentum</h2>
+            </div>
+            <span class="schedule-total">{{ plan.study_days|length }} <small>sessions / week</small></span>
+        </div>
+
+        <div class="schedule-grid">
+            {% for session in plan.schedule %}
+                <article class="schedule-session">
+                    <div class="session-day"><span class="session-dot" aria-hidden="true"></span>{{ session.day }}</div>
+                    <h3>{{ session.title }}</h3>
+                    <p>{{ session.activity }}</p>
+                    <span class="session-duration">{{ session.duration }} min focus session</span>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="plan-recommendations" aria-labelledby="recommendations-title">
+        <div class="recommendations-heading">
+            <span class="recommendations-icon" aria-hidden="true">✦</span>
+            <div>
+                <p class="plan-card-eyebrow">Guided by your progress</p>
+                <h2 id="recommendations-title">A few helpful reminders</h2>
+            </div>
+        </div>
+        <ul>
+            {% for recommendation in plan.recommendations %}
+                <li>{{ recommendation }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <div class="plan-detail-actions">
+        <a class="plan-cancel" href="{% url 'subject_dashboard' plan.course.id %}">Back to {{ plan.course.subject_name }}</a>
+        <a class="plan-submit" href="{% url 'create_study_plan' %}?course={{ plan.course.id }}">Adjust my plan <span aria-hidden="true">→</span></a>
+    </div>
+</main>
+{% endblock %}

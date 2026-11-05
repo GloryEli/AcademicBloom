@@ -1,0 +1,430 @@
+.study-plan-layout {
+    width: min(1120px, calc(100% - 64px));
+    margin: 0 auto;
+    padding: 48px 0 72px;
+}
+
+.study-plan-intro {
+    max-width: 720px;
+    margin-bottom: 30px;
+}
+
+.plan-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+    color: #397c9b;
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.plan-eyebrow span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #38bdd0;
+    box-shadow: 0 0 0 5px rgba(56, 189, 208, 0.12);
+}
+
+.study-plan-intro h1 {
+    max-width: 700px;
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 740;
+    letter-spacing: -0.067em;
+    line-height: 1.06;
+}
+
+.study-plan-intro h1 span {
+    color: var(--accent-primary);
+}
+
+.study-plan-intro > p:last-child {
+    max-width: 590px;
+    margin: 18px 0 0;
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+    line-height: 1.8;
+}
+
+.dashboard-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+.study-plan-form-card,
+.weekly-schedule,
+.plan-recommendations {
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    background: var(--bg-primary);
+    box-shadow: 0 12px 34px var(--shadow-light);
+}
+
+.study-plan-form-card {
+    max-width: 760px;
+    padding: clamp(23px, 4vw, 38px);
+}
+
+.plan-form-heading,
+.schedule-heading,
+.recommendations-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.plan-card-eyebrow {
+    margin: 0;
+    color: #338da1;
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.plan-form-heading h2,
+.schedule-heading h2,
+.recommendations-heading h2 {
+    margin: 7px 0 0;
+    color: var(--text-primary);
+    font-size: clamp(1.25rem, 2.4vw, 1.65rem);
+    font-weight: 720;
+    letter-spacing: -0.045em;
+}
+
+.plan-heading-mark,
+.recommendations-icon {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 13px;
+    background: var(--bg-tertiary);
+    color: var(--success);
+    font-size: 1.1rem;
+}
+
+.study-plan-form {
+    display: grid;
+    gap: 23px;
+    margin-top: 28px;
+}
+
+.plan-field {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.plan-field > label,
+.plan-field legend {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.plan-field select {
+    width: 100%;
+    min-height: 47px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-medium);
+    border-radius: 9px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+}
+
+.plan-help {
+    margin: 7px 0 0;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    line-height: 1.55;
+}
+
+.plan-days ul {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 9px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.plan-days li {
+    min-width: 0;
+}
+
+.plan-days li label {
+    min-height: 43px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border: 1px solid var(--border-light);
+    border-radius: 9px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 650;
+    transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.plan-days li label:has(input:checked) {
+    border-color: var(--accent-primary);
+    background: var(--bg-tertiary);
+    color: var(--accent-secondary);
+}
+
+.plan-days input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--accent-primary);
+}
+
+.plan-form-actions,
+.plan-detail-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-light);
+}
+
+.plan-submit,
+.plan-cancel {
+    min-height: 43px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 15px;
+    border: 1px solid var(--accent-primary);
+    border-radius: 9px;
+    background: var(--accent-primary);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.plan-submit:hover {
+    transform: translateY(-1px);
+    background: var(--accent-secondary);
+    color: #fff;
+}
+
+.plan-cancel {
+    border-color: var(--border-medium);
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+}
+
+.plan-cancel:hover {
+    border-color: var(--accent-primary);
+    background: var(--bg-tertiary);
+    color: var(--accent-secondary);
+}
+
+.plan-empty-state {
+    margin-top: 24px;
+    padding: 21px;
+    border: 1px dashed var(--border-medium);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+}
+
+.plan-empty-state h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.plan-empty-state p {
+    margin: 8px 0 17px;
+    color: var(--text-secondary);
+    font-size: 0.87rem;
+}
+
+.plan-errors,
+.plan-field-error {
+    color: var(--danger);
+    font-size: 0.82rem;
+}
+
+.weekly-schedule {
+    padding: clamp(23px, 4vw, 36px);
+}
+
+.schedule-total {
+    display: grid;
+    justify-items: end;
+    color: var(--accent-primary);
+    font-size: 1.45rem;
+    font-weight: 750;
+    line-height: 1.15;
+    text-align: right;
+}
+
+.schedule-total small {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: 0.67rem;
+    font-weight: 650;
+}
+
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+    margin-top: 24px;
+}
+
+.schedule-session {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--border-light);
+    border-radius: 13px;
+    background: var(--bg-secondary);
+}
+
+.session-day {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent-secondary);
+    font-size: 0.76rem;
+    font-weight: 750;
+}
+
+.session-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--success);
+}
+
+.schedule-session h3 {
+    margin: 12px 0 5px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.schedule-session p {
+    min-height: 60px;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.65;
+}
+
+.session-duration {
+    display: inline-block;
+    margin-top: 13px;
+    padding: 5px 8px;
+    border-radius: 7px;
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 650;
+}
+
+.plan-recommendations {
+    margin-top: 17px;
+    padding: clamp(23px, 4vw, 32px);
+}
+
+.recommendations-heading {
+    justify-content: flex-start;
+}
+
+.plan-recommendations ul {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.plan-recommendations li {
+    position: relative;
+    padding: 11px 13px 11px 34px;
+    border-radius: 9px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 0.84rem;
+    line-height: 1.6;
+}
+
+.plan-recommendations li::before {
+    position: absolute;
+    left: 13px;
+    color: var(--success);
+    content: "✓";
+    font-weight: 750;
+}
+
+.plan-detail-actions {
+    margin-top: 18px;
+    padding-top: 18px;
+}
+
+@media (max-width: 700px) {
+    .study-plan-layout {
+        width: min(100% - 40px, 600px);
+        padding: 36px 0 48px;
+    }
+
+    .plan-days ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-session p {
+        min-height: 0;
+    }
+}
+
+@media (max-width: 430px) {
+    .plan-form-heading h2,
+    .schedule-heading h2,
+    .recommendations-heading h2 {
+        font-size: 1.16rem;
+    }
+
+    .schedule-heading {
+        align-items: flex-start;
+    }
+
+    .plan-form-actions,
+    .plan-detail-actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .plan-form-actions > *,
+    .plan-detail-actions > * {
+        width: 100%;
+    }
+}

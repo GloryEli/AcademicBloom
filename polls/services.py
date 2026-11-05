@@ -14,6 +14,13 @@ class QuizStudyRecommendation(TypedDict):
     study_tips: list[str]
 
 
+class StudySession(TypedDict):
+    day: str
+    title: str
+    activity: str
+    duration: int
+
+
 def _number(data: Mapping[str, object], key: str, default: object) -> float:
     value = data.get(key, default)
     if not isinstance(value, (str, SupportsFloat)):
@@ -103,6 +110,91 @@ def generate_study_guidance(data: Mapping[str, object], predicted_score: float |
         tips.append(f"Keep your revision closely linked to your goal: {goal}.")
 
     return tips
+
+
+def build_study_plan(
+    course: object,
+    study_days: list[str],
+    session_minutes: int,
+) -> tuple[list[StudySession], list[str]]:
+    """Create a weekly study schedule tailored to a student's course profile."""
+    subject_name = str(getattr(course, "subject_name", "your subject"))
+    preferred_style = str(getattr(course, "preferred_learning_style", "")).lower()
+    motivation = str(getattr(course, "motivation", "medium")).lower()
+    predicted_score = getattr(course, "predicted_score", None)
+    if predicted_score is None:
+        predicted_score = getattr(course, "previous_scores", 50)
+
+    if predicted_score < 60:
+        topic_focus = "Revisit one challenging topic and strengthen the core ideas"
+    elif predicted_score < 80:
+        topic_focus = "Review recent mistakes and practise the topics that need more attention"
+    else:
+        topic_focus = "Stretch your understanding with a challenging topic or exam-style problem"
+
+    if "visual" in preferred_style:
+        learning_approach = "Create a quick diagram or mind map, then explain how the ideas connect."
+    elif "auditory" in preferred_style:
+        learning_approach = "Explain the key ideas aloud or teach them to someone else."
+    elif "kinesthetic" in preferred_style:
+        learning_approach = "Work through examples actively and write each step as you go."
+    elif "reading_writing" in preferred_style:
+        learning_approach = "Write a short summary from memory, then check it against your notes."
+    elif "social" in preferred_style:
+        learning_approach = "Discuss the topic with a study partner and take turns explaining it."
+    else:
+        learning_approach = "Summarise the key ideas in your own words, then check your understanding."
+
+    if motivation == "low":
+        first_step = "Begin with a small, achievable task to build momentum."
+    elif motivation == "high":
+        first_step = "Start with your most demanding task while your focus is fresh."
+    else:
+        first_step = "Set one clear goal before you begin."
+
+    activities = [
+        ("Learn & connect", f"{topic_focus} in {subject_name}. {learning_approach}"),
+        ("Recall & review", f"Close your notes and recall the main ideas from {subject_name}. Revisit anything you could not remember."),
+        ("Practise & apply", f"Complete practice questions for {subject_name}. Check each answer and note what to revisit."),
+        ("Reflect & reset", f"Review this week's progress in {subject_name}, celebrate one win, and choose a focus for next week."),
+    ]
+    if len(study_days) == 1:
+        activities = [
+            (
+                "Focus & build confidence",
+                f"{topic_focus} in {subject_name}. {learning_approach} Then complete a few practice questions and note your next step.",
+            ),
+        ]
+    elif len(study_days) == 2:
+        activities = [activities[0], activities[2]]
+    elif len(study_days) == 3:
+        activities = activities[:3]
+
+    schedule: list[StudySession] = []
+    for index, day in enumerate(study_days):
+        title, activity = activities[index % len(activities)]
+        if index == 0:
+            activity = f"{first_step} {activity}"
+        schedule.append({
+            "day": day,
+            "title": title,
+            "activity": activity,
+            "duration": session_minutes,
+        })
+
+    guidance_data = {
+        "subject": subject_name,
+        "hours_studied": getattr(course, "hours_studied", 0),
+        "previous_scores": getattr(course, "previous_scores", 50),
+        "sleep_hours": getattr(course, "sleep_hours", 7),
+        "question_papers": getattr(course, "question_papers", 0),
+        "motivation": motivation,
+        "preferred_learning_style": preferred_style,
+        "extracurricular": getattr(course, "extracurricular", "No"),
+        "goal": subject_name,
+    }
+    recommendations = generate_study_guidance(guidance_data, predicted_score)
+    return schedule, recommendations
 
 
 def predict_quiz_score(

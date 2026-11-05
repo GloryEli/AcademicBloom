@@ -35,6 +35,23 @@ class CourseSpecificEntry(models.Model):
         return f"{self.subject.subject_name} - {self.created_at.strftime('%Y-%m-%d')}"
 
 
+class StudyPlan(models.Model):
+    course = models.ForeignKey(
+        "SubjectEntry",
+        on_delete=models.CASCADE,
+        related_name="study_plans",
+    )
+    study_days = models.JSONField(default=list)
+    session_minutes = models.PositiveSmallIntegerField(default=40)
+    schedule = models.JSONField(default=list)
+    recommendations = models.JSONField(default=list)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.course.subject_name} study plan"
+
+
 #This represents the databse for all courses.
 class SubjectEntry(models.Model):
     # Link to the user (student)

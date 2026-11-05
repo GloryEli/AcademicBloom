@@ -169,6 +169,50 @@ class Step5Form(forms.Form):
         return data
 
 
+class StudyPlanForm(forms.Form):
+    DAY_CHOICES = [
+        ("Monday", "Monday"),
+        ("Tuesday", "Tuesday"),
+        ("Wednesday", "Wednesday"),
+        ("Thursday", "Thursday"),
+        ("Friday", "Friday"),
+        ("Saturday", "Saturday"),
+        ("Sunday", "Sunday"),
+    ]
+    SESSION_LENGTH_CHOICES = [
+        (25, "25 minutes"),
+        (40, "40 minutes"),
+        (50, "50 minutes"),
+        (60, "60 minutes"),
+    ]
+
+    course = forms.ModelChoiceField(
+        queryset=SubjectEntry.objects.none(),
+        label="Choose a course",
+        empty_label="Select a course",
+    )
+    study_days = forms.MultipleChoiceField(
+        choices=DAY_CHOICES,
+        label="Which days work for you?",
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+    )
+    session_minutes = forms.TypedChoiceField(
+        choices=SESSION_LENGTH_CHOICES,
+        coerce=int,
+        label="How long should each study session be?",
+    )
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+        self.fields["course"].queryset = SubjectEntry.objects.filter(
+            student__user=user
+        ).order_by("subject_name")
+        self.initial.setdefault("study_days", ["Monday", "Wednesday", "Friday"])
+        self.initial.setdefault("session_minutes", 40)
+
+
 
 
 # class StudyPlanQuestionnaireForm(forms.ModelForm):

@@ -4,13 +4,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Student, SubjectEntry, CourseSpecificEntry
+from .models import Student, SubjectEntry, CourseSpecificEntry, StudyPlan
 from django.core.cache import cache
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404
-from .forms import StudyPlanQuestionnaireForm
+from .forms import StudyPlanQuestionnaireForm, StudyPlanForm
 from .models import StudyPlanQuestionnaire
 
 from django.views.decorators.http import require_POST
@@ -22,6 +22,7 @@ from .services import (
     predict_course_score,
     predict_quiz_score,
     simulate_course_outcome,
+    build_study_plan,
 )
 
 
@@ -407,7 +408,56 @@ def subject_dashboard(request, course_id):
     return render(request, 'dashboard.html', {
         'course': course,
         'courses': SubjectEntry.objects.filter(student=student),
+        'latest_study_plan': course.study_plans.order_by('-created_at').first(),
         'current_page': 'dashboard'
+    })
+
+
+@login_required
+def create_study_plan(request):
+    student = get_object_or_404(Student, user=request.user)
+    courses = SubjectEntry.objects.filter(student=student).order_by("subject_name")
+    form = StudyPlanForm(
+        request.POST or None,
+        user=request.user,
+        initial={"course": request.GET.get("course")},
+    )
+
+    if request.method == "POST" and form.is_valid():
+        course = form.cleaned_data["course"]
+        study_days = form.cleaned_data["study_days"]
+        session_minutes = form.cleaned_data["session_minutes"]
+        schedule, recommendations = build_study_plan(
+            course,
+            study_days,
+            session_minutes,
+        )
+        plan = StudyPlan.objects.create(
+            course=course,
+            study_days=study_days,
+            session_minutes=session_minutes,
+            schedule=schedule,
+            recommendations=recommendations,
+        )
+        messages.success(request, f"Your {course.subject_name} study plan is ready.")
+        return redirect("study_plan_detail", plan_id=plan.pk)
+
+    return render(request, "study_plan_form.html", {
+        "form": form,
+        "courses": courses,
+    })
+
+
+@login_required
+def study_plan_detail(request, plan_id):
+    plan = get_object_or_404(
+        StudyPlan,
+        pk=plan_id,
+        course__student__user=request.user,
+    )
+    return render(request, "study_plan_detail.html", {
+        "plan": plan,
+        "courses": SubjectEntry.objects.filter(student__user=request.user),
     })
 
 
