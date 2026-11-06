@@ -8,6 +8,36 @@ from .models import Student, SubjectEntry, StudyPlan
 @override_settings(
     STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage"
 )
+class SignupLoginFlowTests(TestCase):
+    def test_signup_credentials_work_after_logging_out(self):
+        credentials = {
+            "username": "newstudent",
+            "password1": "Very-Strong-Passphrase-742!",
+            "password2": "Very-Strong-Passphrase-742!",
+        }
+        signup_response = self.client.post(reverse("signup"), credentials)
+
+        self.assertRedirects(signup_response, reverse("hero"))
+        user = User.objects.get(username=credentials["username"])
+        self.assertTrue(user.check_password(credentials["password1"]))
+        self.assertTrue(Student.objects.filter(user=user).exists())
+
+        self.client.logout()
+        login_response = self.client.post(
+            reverse("login"),
+            {
+                "username": credentials["username"],
+                "password": credentials["password1"],
+            },
+        )
+
+        self.assertRedirects(login_response, reverse("hero"))
+        self.assertEqual(int(self.client.session["_auth_user_id"]), user.pk)
+
+
+@override_settings(
+    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage"
+)
 class StudyPlanFlowTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="student", password="pass12345")
