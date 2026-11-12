@@ -2,11 +2,26 @@ import math
 from collections.abc import Iterable, Mapping
 from html import escape
 from typing import SupportsFloat, TypedDict
+import json
+import os
+from openai import OpenAI
+from pydantic import BaseModel, Field
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+
+
 
 
 class CourseOutcome(TypedDict):
     predicted_score: float
     study_guide: str
+
+class LLMOutcome(BaseModel):
+    predicted_score: float = Field(ge=0, le=100)
+    guidance: list[str] = Field(min_length=1, max_length=8)
 
 
 class QuizStudyRecommendation(TypedDict):
@@ -248,13 +263,53 @@ def predict_quiz_score(
     }
 
 
-def simulate_course_outcome(data: Mapping[str, object]) -> CourseOutcome:
-    """Backwards-compatible course prediction and guidance generator."""
-    predicted_score = predict_course_score(data)
-    guidance_tips = generate_study_guidance(data, predicted_score)
-    study_guide = "<ul>" + "".join(f"<li>{escape(tip)}</li>" for tip in guidance_tips) + "</ul>"
+def predict_course_outcome_with_llm(data: Mapping[str, object]) -> LLMOutcome:
+    profile = {
+    key: data.get(key)
+    for key in (
+    "subject",
+    "hours_studied",
+    "previous_scores",
+    "extracurricular",
+    "sleep_hours",
+    "question_papers",
+    "motivation",
+    "preferred_learning_style",
+    "goal",
+    )
+    }
+    response = OpenAI(timeout=15.0, max_retries=0).responses.parse(
+    model=os.environ.get("OPENAI_MODEL", "gpt-5.5"),
+    instructions=(
+    "You support a student study planner. Estimate an exam score from 0 to 100 "
+    "using only the supplied profile, and give practical, encouraging study guidance. "
+    "Treat the score as an uncertain estimate, not a guarantee. Do not invent profile facts."
+    ),
+    input=json.dumps(profile),
+    text_format=LLMOutcome,
+    )
+    outcome = response.output_parsed
+    if outcome is None:
+        raise ValueError("The LLM returned no structured course outcome")
+    return outcome
 
+
+
+def simulate_course_outcome(data: Mapping[str, object]) -> CourseOutcome:
+    """Use the LLM first, falling back to the rule-based course outcome."""
+    try:
+        llm_outcome = predict_course_outcome_with_llm(data)
+        predicted_score = llm_outcome.predicted_score
+        guidance_tips = llm_outcome.guidance
+    except Exception:
+        logger.exception("LLM course prediction failed; using the Python fallback")
+        predicted_score = predict_course_score(data)
+        guidance_tips = generate_study_guidance(data, predicted_score)
+
+    study_guide = "<ul>" + "".join(
+    f"<li>{escape(tip)}</li>" for tip in guidance_tips
+    ) + "</ul>"
     return {
-        "predicted_score": predicted_score,
-        "study_guide": study_guide,
+    "predicted_score": predicted_score,
+    "study_guide": study_guide,
     }
