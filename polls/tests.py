@@ -83,6 +83,59 @@ class SignupLoginFlowTests(TestCase):
 @override_settings(
     STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage"
 )
+class CourseAccessTests(TestCase):
+    def setUp(self):
+        self.owner = User.objects.create_user(username="owner", password="pass12345")
+        self.owner_student = Student.objects.create(user=self.owner)
+        self.course = SubjectEntry.objects.create(
+            student=self.owner_student,
+            subject_name="Mathematics",
+            predicted_score=72,
+        )
+        self.other_user = User.objects.create_user(username="other", password="pass12345")
+        Student.objects.create(user=self.other_user)
+
+    def test_course_dashboard_redirects_anonymous_users_to_login(self):
+        response = self.client.get(
+            reverse("subject_dashboard", kwargs={"course_id": self.course.pk})
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith("/accounts/login/?next="))
+
+    def test_student_cannot_view_another_students_course(self):
+        self.client.force_login(self.other_user)
+
+        response = self.client.get(
+            reverse("subject_dashboard", kwargs={"course_id": self.course.pk})
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    @patch("polls.views.simulate_course_outcome")
+    def test_student_cannot_generate_guidance_for_another_students_course(self, generate):
+        self.client.force_login(self.other_user)
+
+        response = self.client.post(
+            reverse("get_guidance", kwargs={"course_id": self.course.pk})
+        )
+
+        self.assertEqual(response.status_code, 404)
+        generate.assert_not_called()
+        self.course.refresh_from_db()
+        self.assertEqual(self.course.predicted_score, 72)
+
+    def test_student_dashboard_redirects_to_learning_home(self):
+        self.client.force_login(self.owner)
+
+        response = self.client.get(reverse("student_dashboard"))
+
+        self.assertRedirects(response, reverse("hero"))
+
+
+@override_settings(
+    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage"
+)
 class StudyPlanFlowTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="student", password="pass12345")

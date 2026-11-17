@@ -1,4 +1,3 @@
-from django.http import Http404
 import json
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -396,18 +395,17 @@ class SubjectWizard(SessionWizardView):
             
             return super().post(request, *args, **kwargs)
 
+@login_required
 def subject_dashboard(request, course_id):
-    course = get_object_or_404(SubjectEntry, id=course_id)
-    
-    # Get the Student instance associated with the user
-    try:
-        student = request.user.student
-    except Student.DoesNotExist:
-        raise Http404("Student profile not found")
-    
+    course = get_object_or_404(
+        SubjectEntry,
+        id=course_id,
+        student__user=request.user,
+    )
+
     return render(request, 'dashboard.html', {
         'course': course,
-        'courses': SubjectEntry.objects.filter(student=student),
+        'courses': SubjectEntry.objects.filter(student__user=request.user),
         'latest_study_plan': course.study_plans.order_by('-created_at').first(),
         'current_page': 'dashboard'
     })
@@ -567,26 +565,17 @@ def hero_view(request):
 
 @login_required
 def student_dashboard_view(request):
-    return render(request, 'dashboard.html')   
+    return redirect("hero")
 
 @login_required
 def get_guidance_view(request, course_id):
-    course = get_object_or_404(SubjectEntry, id=course_id)
+    course = get_object_or_404(
+        SubjectEntry,
+        id=course_id,
+        student__user=request.user,
+    )
 
     if request.method == "POST":
-        student = Student.objects.filter(user=request.user).first()
-        if not student:
-            return render(request, "dashboard.html", {
-                "error": "Student profile not found.",
-                "course": course,
-            })
-
-        if not course:
-            return render(request, "dashboard.html", {
-                "error": "Course not found.",
-                "course": course,
-            })
-
         payload = {
             "subject": course.subject_name,
             "previous_scores": course.previous_scores,
@@ -606,7 +595,7 @@ def get_guidance_view(request, course_id):
         return render(request, "dashboard.html", {
             "course": course,
             "guidance": course.study_guide,
-            "courses": SubjectEntry.objects.filter(student=request.user.student),
+            "courses": SubjectEntry.objects.filter(student__user=request.user),
         })
 
     return redirect("subject_dashboard", course_id=course.pk)
